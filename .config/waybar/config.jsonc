@@ -1,0 +1,117 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top",
+    "modules-left": ["hyprland/workspaces", "tray", "custom/music"],
+    "modules-center": ["clock"], // Sadly cava isn't included in the fedora build of cava.
+    "modules-right": ["pulseaudio", "custom/blue", "backlight", "network", "power-profiles-daemon", "cpu", "custom/nvidia", "battery", "custom/power"],
+    
+    // left
+    "hyprland/workspaces": {
+        "show-special": false,
+	"format": "{icon}",
+	"format-icons": {
+            "urgent": "",
+            "active": "",
+            "default": ""
+	}
+    },
+    "tray":  {
+        "spacing": 10
+    },
+    "custom/music": {
+        "format": "  {}   ",
+        "escape": true,
+        "interval": 5,
+        "tooltip": false,
+        "exec": "query_music",
+        "on-click": "playerctl play-pause",
+        "max-length": 50
+    },
+
+    // center
+    "clock": {
+        "timezone": "Europe/Berlin",
+        "tooltip-format": " {:%d/%m/%Y} ",
+        "format": " {:%H:%M} "
+    },
+
+    // right
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "default": ["", "", " "]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/blue": {
+        "format": " 󱞖 ",
+        "tooltip": false,
+        "on-click": "toggle_blue_filter"
+    },
+    "backlight": {
+	"tooltip": false,
+        "format": "{percent}% {icon}",
+        "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"]
+    },
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "format-ethernet": "{ipaddr}/{cidr} 󰊗 ",
+        "format-disconnected": "Disconnected  ", //An empty format will hide the module.
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗 ",
+        "tooltip-format-wifi": "{frequency}GHz    {signaldBm}dBm\n{bandwidthUpBytes}   {bandwidthDownBytes}  ",
+        "tooltip-format-ethernet": "{ifname}  ",
+        "tooltip-format-disconnected": "",
+        "max-length": 50,
+	"on-click": "kitty impala"
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+    "custom/nvidia": {
+	"tooltip": false,
+        "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g'",
+        "format": "{}% ",
+        "interval": 10
+    },
+    "battery": {
+	"tooltip": false,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "custom/power": {
+        "format" : "⏻ ",
+        "tooltip": false,
+	"on-click": "~/.config/rofi/powermenu/type-6/powermenu.sh"
+	//"menu": "on-click",
+	//"menu-file": "$HOME/.config/waybar/power_menu.xml",
+	//"menu-actions": {
+	//    "shutdown": "systemctl poweroff",
+	//    "reboot": "systemctl reboot",
+	//    "suspend": "systemctl suspend",
+	//    "hibernate": "systemctl hibernate"
+	//}
+    }
+}

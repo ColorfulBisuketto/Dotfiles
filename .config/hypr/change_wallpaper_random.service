@@ -1,0 +1,9 @@
+[Unit]
+Description=Change the wallpaper to a new random one from ~/wallpapers/
+After=graphical-session.target
+After=hyprpaper.service
+
+[Service]
+ExecStart=/usr/local/bin/change_wallpaper_random
+
+
