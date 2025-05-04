@@ -2,7 +2,7 @@
 
 A simple repo to hold my arch `.config` files.
 
-Images and some scripts are from various sources.
+Images and some scripts are from various sources, most are from [Catppuccin](https://catppuccin.com/).
 I tried to keep sources in the corresponding files.
 
 I generally tried to stick with the catppuccin mocha colors.
