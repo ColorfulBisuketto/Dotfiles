@@ -23,8 +23,8 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 ---
 
 ## Keybinds
-|:- Bind | Dexcription -:|
-|---|---|
+| Bind | Dexcription |
+|------|------|
 | SUPER + Q | kitty |
 | SUPER + C | killactive |
 | SUPER + M | powermenu |
