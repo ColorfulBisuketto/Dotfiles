@@ -22,6 +22,25 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 
 ---
 
+## Keybinds
+|:- Bind | Dexcription -:|
+|---|---|
+| SUPER + Q | kitty |
+| SUPER + C | killactive |
+| SUPER + M | powermenu |
+| SUPER + SHIFT + M | kill session |
+| SUPER + E | nemo |
+| SUPER + V | toggle floating |
+| SUPER + R | rofi menu |
+| SUPER + P | pseudo # dwindle |
+| SUPER + J | togglesplit # dwindle |
+| SUPER + F | toggle fullscreen |
+| SUPER + SHIFT + S | take screenshot | 
+| SUPER + N | toggle sway notification center |
+| SUPER + L | lock |
+
+---
+
 ## Requirements
 
 ### Some of the packages needed:
