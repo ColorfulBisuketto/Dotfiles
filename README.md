@@ -14,11 +14,11 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 ---
 
 ## Showcase
-![general](./Schowcase/Images/general.png)
-![swaync](./Schowcase/Images/swaync.png)
-![rofi](./Schowcase/Images/rofi.png)
-![powermenu](./Schowcase/Images/powermenu.png)
-![yazi](./Schowcase/Images/yazi.png)
+![general](Showcase/Images/general.png)
+![swaync](Schowcase/Images/swaync.png)
+![rofi](Schowcase/Images/rofi.png)
+![powermenu](Schowcase/Images/powermenu.png)
+![yazi](Schowcase/Images/yazi.png)
 
 ---
 
