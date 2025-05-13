@@ -2,7 +2,7 @@
 
 A simple repo to hold my arch `.config` files.
 
-Images and some scripts are from various sources.
+Images and some scripts are from various sources, most are from [Catppuccin](https://catppuccin.com/).
 I tried to keep sources in the corresponding files.
 
 I generally tried to stick with the catppuccin mocha colors.
@@ -23,8 +23,8 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 ---
 
 ## Keybinds
-|:- Bind | Dexcription -:|
-|---|---|
+| Bind | Description |
+|------|------|
 | SUPER + Q | kitty |
 | SUPER + C | killactive |
 | SUPER + M | powermenu |
