@@ -56,14 +56,14 @@
 #network,
 #custom-power {
   background-color: @surface0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   margin: 5px 0;
 }
 
 #clock {
   color: @blue;
   border-radius: 1rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
 }
 
 #battery {
@@ -131,4 +131,9 @@
 
 #workspaces {
   border-radius: 1rem 0px 0px 1rem;
+}
+
+#waybar.other #clock {
+  padding: 0.25rem 0.5rem;
+  border: 2px solid #9041EC;
 }
