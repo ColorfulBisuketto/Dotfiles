@@ -24,13 +24,13 @@
         "spacing": 8
     },
     "custom/music": {
-        "format": " {} ",
+        "format": " {}  ",
         "escape": true,
         "interval": 5,
         "tooltip": false,
         "exec": "query_music",
         "on-click": "playerctl play-pause",
-        "max-length": 30
+        "max-length": 35
     },
 
     // center
