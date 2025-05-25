@@ -4,6 +4,6 @@ After=graphical-session.target
 After=hyprpaper.service
 
 [Service]
-ExecStart=/usr/local/bin/change_wallpaper_random
+ExecStart=/usr/local/bin/change_wallpaper_random.sh
 
 
