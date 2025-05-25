@@ -28,7 +28,7 @@
         "escape": true,
         "interval": 5,
         "tooltip": false,
-        "exec": "query_music",
+        "exec": "query_music.sh",
         "on-click": "playerctl play-pause",
         "max-length": 35
     },
@@ -66,7 +66,7 @@
     "custom/blue": {
         "format": "󱞖 ",
 	"tooltip-format": "Toggle blue light filter",
-        "on-click": "toggle_blue_filter"
+        "on-click": "toggle_blue_filter.sh"
     },
     "backlight": {
 	"tooltip": false,
