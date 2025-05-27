@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-SUNSET=$(curl -s 'https://api.sunrisesunset.io/json?lat=49.1625434&lng=8.0349548' | jq '.results.dusk' | xargs date "+%H:%M:%S" -d)
+# Sunset time in epoch timestamp
+SUNSET=$(curl -s 'https://api.sunrisesunset.io/json?lat=49.1625434&lng=8.0349548' | jq '.results.dusk' | xargs date "+%s" -d)
 
-echo "$SUNSET"
+echo $(date -d "@$(($SUNSET - 3600))" "+%H:%M:%S")

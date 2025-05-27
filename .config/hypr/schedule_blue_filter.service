@@ -1,0 +1,12 @@
+[Unit]
+Description=Schedule the blue light filter depending on sunset time.
+After=graphical-session.target
+After=network-online.target
+
+[Service]
+Type=exec
+ExecCondition=/lib/systemd/systemd-xdg-autostart-condition "Hyprland" ""
+ExecStart=schedule_blue_filter.sh
+
+[Install]
+WantedBy=graphical-session.target
