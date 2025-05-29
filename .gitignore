@@ -1,1 +1,5 @@
-blue_filter_state
+# Changes all the time
+.config/hypr/blue_filter_state
+
+# Script I use to update these files.
+copy.sh 
