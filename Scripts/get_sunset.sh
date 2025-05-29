@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# Config File
+CONFIG="$XDG_CONFIG_HOME/custom-scripts/sunset_location"
+
 # Import location
-if [[ ! -f ~/.config/hypr/sunset_location ]]; then
-  echo "lat=" >~/.config/hypr/sunset_location
-  echo "lng=" >>~/.config/hypr/sunset_location
+if [[ ! -f $CONFIG ]]; then
+  echo "lat=" >$CONFIG
+  echo "lng=" >>$CONFIG
 fi
-source ~/.config/hypr/sunset_location
+source $CONFIG
 if [[ -z $lat || -z $lng ]]; then
   echo "Location is not set."
   echo "please set the latitude and longitude for your location."

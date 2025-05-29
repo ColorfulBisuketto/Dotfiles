@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-configured_packages=("cava" "fastfetch" "hypr" "kitty" "nvim" "qt5ct" "qt6ct" "rofi" "starship.toml" "swaync" "uwsm" "waybar" "yazi")
+configured_packages=("cava" "fastfetch" "hypr" "kitty" "nvim" "qt5ct" "qt6ct" "rofi" "starship.toml" "swaync" "uwsm" "waybar" "yazi" "custom-scripts")
 
 for pack in ${configured_packages[@]}; do
   rm -rf "$SCRIPT_DIR/.config/$pack/"
