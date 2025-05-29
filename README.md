@@ -14,11 +14,8 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 ---
 
 ## Showcase
-![general](Showcase/Images/general.png)
-![swaync](Showcase/Images/swaync.png)
-![rofi](Showcase/Images/rofi.png)
-![powermenu](Showcase/Images/powermenu.png)
-![yazi](Showcase/Images/yazi.png)
+> [!TODO]
+> make new screenshots
 
 ---
 
@@ -38,6 +35,10 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 | SUPER + SHIFT + S | take screenshot | 
 | SUPER + N | toggle sway notification center |
 | SUPER + L | lock |
+| SUPER + SHIFT + arrow keys | move window in direction |
+| SUPER + ALT + SPACE | toggle Window grouping |
+| SUPER + ALT + arrow keys | move Window into/out group |
+| SUPER + ALT + CONTROL + SPACE | toggle lock group |
 
 ---
 
@@ -58,8 +59,6 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 - waybar
 - yazi
 - starship
-- (Darkly)
-- (Papyrus Icons)
 
 ### Needed folders and files:
 - `~/wallpapers/`
