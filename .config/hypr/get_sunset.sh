@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-# Sunset time in epoch timestamp
-SUNSET=$(curl -s 'https://api.sunrisesunset.io/json?lat=49.1625434&lng=8.0349548' | jq '.results.dusk' | xargs date "+%s" -d)
+# Import location
+source ~/.config/hypr/sunset_location
 
+# Sunset time in epoch timestamp
+SUNSET=$(curl -s "https://api.sunrisesunset.io/json?lat=$lat&lng=$lng" | jq ".results.dusk" | xargs date "+%s" -d)
+
+# 45 minutes before sunset.
 echo $(date -d "@$(($SUNSET - 2700))" "+%H:%M:%S")

@@ -1,5 +1,5 @@
-# Changes all the time
-.config/hypr/blue_filter_state
-
 # Script I use to update these files.
 copy.sh 
+
+# Latitude and Longitude data for your location.
+sunset_location
