@@ -10,3 +10,5 @@ for pack in ${configured_packages[@]}; do
   mv -iv "$XDG_CONFIG_HOME/$pack/" "$XDG_CONFIG_HOME.bak/$pack/"
   cp -r "$SCRIPT_DIR/.config/$pack/" "$XDG_CONFIG_HOME/"
 done
+
+#TODO: set location interactively.
