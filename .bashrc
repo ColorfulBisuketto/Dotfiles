@@ -9,6 +9,7 @@ alias ls='ls --color=auto'
 alias ll='ls -o'
 alias la='ll -A'
 alias grep='grep --color=auto'
+alias icat='kitten icat'
 PS1='[\u@\h \W]\$ '
 
 eval "$(starship init bash)"
