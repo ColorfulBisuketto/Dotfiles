@@ -16,7 +16,7 @@ if [[ -z $lat || -z $lng ]]; then
 fi
 
 # Sunset time in epoch timestamp
-SUNSET=$(curl -s "https://api.sunrisesunset.io/json?lat=$lat&lng=$lng" | jq ".results.dusk" | xargs date "+%s" -d)
+SUNSET=$(curl -s "https://api.sunrisesunset.io/json?lat=$lat&lng=$lng")
 
 # 45 minutes before sunset.
-echo $(date -d "@$(($SUNSET - 2700))" "+%H:%M:%S")
+echo "$SUNSET"
