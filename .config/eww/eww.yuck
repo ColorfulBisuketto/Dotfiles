@@ -1,0 +1,4 @@
+; Each window has its own `name.yuck` file.
+
+(include "./activate-linux.yuck")
+(include "./my-bar.yuck")

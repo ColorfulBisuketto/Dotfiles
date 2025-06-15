@@ -22,12 +22,12 @@ configuration {
 /*****----- Global Properties -----*****/
 * {
     font:                        "JetBrains Mono Nerd Font 10";
-    background:                  #11092D;
-    background-alt:              #281657;
-    foreground:                  #FFFFFF;
-    selected:                    #DF5296;
-    active:                      #6E77FF;
-    urgent:                      #8E3596;
+    background:                  #1e1e2e;
+    background-alt:              #313244;
+    foreground:                  #cdd6f4;
+    selected:                    #cba6f7;
+    active:                      #f5c2e7;
+    urgent:                      #f38ba8;
 }
 
 /*****----- Main Window -----*****/
@@ -165,15 +165,15 @@ element normal.active {
 }
 element selected.normal {
     background-color:            @selected;
-    text-color:                  @foreground;
+    text-color:                  @background;
 }
 element selected.urgent {
     background-color:            @urgent;
-    text-color:                  @foreground;
+    text-color:                  @background;
 }
 element selected.active {
     background-color:            @urgent;
-    text-color:                  @foreground;
+    text-color:                  @background;
 }
 element-icon {
     background-color:            transparent;

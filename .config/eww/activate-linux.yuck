@@ -1,0 +1,15 @@
+; From: https://github.com/Nycta-b424b3c7/eww_activate-linux/tree/master
+(defwindow activate-linux
+  :monitor '["<primary>", "eDP-1", 0]'
+  :stacking "fg"
+  :geometry (geometry :x "8px" :y "32px" :width "250px" :anchor "bottom right")
+  :namespace "EWW activate-linux"
+  (activate-linux))
+
+(defwidget activate-linux []
+  (box
+    :orientation "v"
+    :halign "start"
+    :valign "start"
+    (label :xalign 0 :markup "<span font_size=\"large\">Activate Linux</span>")
+    (label :xalign 0 :text "Go to Settings to activate Linux")))

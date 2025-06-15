@@ -80,7 +80,7 @@
         "tooltip-format-ethernet": "{ifname}  \n{ipaddr}/{cidr} ",
         "tooltip-format-disconnected": "",
         "max-length": 50,
-	      "on-click": "kitty impala"
+	      "on-click": "kitty --title 'implala' impala"
     },
     "power-profiles-daemon": {
         "format": "{icon}",
