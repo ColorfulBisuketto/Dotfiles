@@ -1,6 +1,7 @@
 [Unit]
 Description=Change the wallpaper to a new random one from ~/wallpapers/
 After=graphical-session.target
+Requires=hyprpaper.service
 After=hyprpaper.service
 
 [Service]

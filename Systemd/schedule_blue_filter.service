@@ -2,6 +2,8 @@
 Description=Schedule the blue light filter depending on sunset time.
 After=graphical-session.target
 After=network-online.target
+Requires=hyprsunset.service
+After=hyprsunset.service
 
 [Service]
 Type=exec

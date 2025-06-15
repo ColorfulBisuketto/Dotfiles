@@ -8,14 +8,21 @@ I tried to keep sources in the corresponding files.
 I generally tried to stick with the catppuccin mocha colors.
 
 The repo where I got all my wallpapers is [here](https://github.com/orangci/walls-catppuccin-mocha)
+> [!WARNING]
+ >  The EWW bar is currently under heavy work and its look might change heavily!
 
 ### Enjoy!
 
 ---
 
 ## Showcase
-> [!TODO]
-> make new screenshots
+![1](Showcase/1.png)
+![2](Showcase/2.png)
+![3](Showcase/3.png)
+![4](Showcase/4.png)
+![5](Showcase/5.png)
+![6](Showcase/6.png)
+![7](Showcase/7.png)
 
 ---
 
@@ -39,6 +46,7 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 | SUPER + ALT + SPACE | toggle Window grouping |
 | SUPER + ALT + arrow keys | move Window into/out group |
 | SUPER + ALT + CONTROL + SPACE | toggle lock group |
+| SUPER + CONTROL + V | Show clipboard history |
 
 ---
 
@@ -57,21 +65,18 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 - rofi-wayland
 - swaync
 - waybar
+- eww
 - yazi
 - starship
 
 ### Needed folders and files:
 - `~/wallpapers/`
 ```bash
-mkdir ~/wallpapers/
+mkdir ~/Wallpapers/
 ```
 - `~/Pictures/Screenshots/`
 ```bash
 mkdir -p ~/Pictures/Screenshots/
-```
-- `~/.config/hypr/blue_filter`
-```bash
-echo "off" > ~/.config/hypr/blue_filter
 ```
 
 ---
@@ -79,13 +84,13 @@ echo "off" > ~/.config/hypr/blue_filter
 ## Info
 
 ### Scripts
-Scripts ending with `.sh` found in `.config/hypr/` and `.config/waybar/` can be symlinked to `/usr/local/bin`
+Scripts ending with `.sh` found in the `Scripts` Folder, and can be symlinked or moved to  `/usr/local/bin`
 ```bash
-ln -s /path/<scriptname>.sh /usr/local/bin/<scriptname>
+ln -s /full/path/<scriptname>.sh /usr/local/bin/<scriptname>.sh
 ```
 or alternatively moved there instead:
 ```bash
-sudo mv /path/<scriptname>.sh /usr/local/bin/<scriptname>
+sudo mv /full/path/<scriptname>.sh /usr/local/bin/<scriptname>.sh
 ```
 
 ### Services
@@ -96,10 +101,12 @@ systemctl --user enable --now <service>.service
 to autostart things like hyprpaper, hyprsunset or waybar.
 Many apps come with their own service files pre included.
 
-A .service and a .timer file are included under `.config/hypr/` that can be used to change wallpapers randomly every 10 minutes.
+Sadly i cant be bothered to get eww to autostart with uwsm so its in the hyprland config.
+
+A .service and a .timer file are included under the `Systemd` Folder, that can be used to change wallpapers randomly every 10 minutes.
 (Make sure hyprpaper is enabled/started as it is required for this to work.)
 ```bash
-sudo mv ./.config/hypr/change_wallpaper_random.* /etc/systemd/user/
+sudo mv ./Systemd/change_wallpaper_random.* /etc/systemd/user/
 systemctl --user enable --now change_wallpaper_random.timer
 ```
 The script is stolen from the hyprland wiki.

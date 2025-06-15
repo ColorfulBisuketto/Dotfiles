@@ -1,6 +1,7 @@
 [Unit]
 Description=Change Wallpaper every 10 minutes
 After=graphical-session.target
+Requires=hyprpaper.service
 After=hyprpaper.service
 
 [Timer]
