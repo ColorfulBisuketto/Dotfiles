@@ -71,6 +71,11 @@ For those wondering I got my wallpapers mostly from [here](https://github.com/or
 - yazi
 - starship
 
+### Some needed Fonts:
+- [DaddyTimeMono](https://github.com/BourgeoisBear/DaddyTimeMono)
+- Noto Fonts (get all to be sure)
+- various Nerd fonts.
+
 ### Needed folders and files:
 - `~/wallpapers/`
 ```bash
