@@ -25,6 +25,7 @@ The repo where I got all my wallpapers is [here](https://github.com/orangci/wall
 ![7](Showcase/7.png)
 
 For those wondering I got my wallpapers mostly from [here](https://github.com/orangci/walls-catppuccin-mocha#), but there is also [this](https://notneelpatel.xyz/WallpaperThemeConverter/) great tool to make your own.
+
 ---
 
 ## Keybinds
