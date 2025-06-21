@@ -57,14 +57,12 @@
 (defwidget arch-menu []
   (eventbox
     :cursor "pointer"
-    :onclick "./scripts/close-submenus.sh && ${EWW_CMD} open my-bar-closer && ${EWW_CMD} open my-bar-arch-menu"
+    :onclick "/home/purplewizard/.config/rofi/scripts/powermenu_t6"
     (box :class "arch-menu"
       (label
-        :unindent false
-        :text "  "
+        :text ""
         :style "font-size: 24px;"
-      )
-       ; "  " power profiles
+      ) ; "  " power profiles
     )
   )
 )
@@ -186,14 +184,12 @@
     )
   )
 )
+
 (defwidget time []
-  (eventbox
-    :cursor "pointer"
-    :onclick "./scripts/close-submenus.sh && ${EWW_CMD} open my-bar-closer && ${EWW_CMD} open my-bar-calendar"
-    (box :class "time"
-      (label
-        :text "${formattime(EWW_TIME, "%H:%M:%S")}"
-      )
+  (box :class "time"
+    :tooltip "${formattime(EWW_TIME, "%d.%m.%Y")}"
+    (label
+      :text "${formattime(EWW_TIME, "%H:%M:%S")}"
     )
   )
 )
@@ -209,7 +205,9 @@
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 ;https://github.com/elkowar/eww/issues/472#issuecomment-1146860335
 (defwidget w-closer []
-  (eventbox :onclick "./scripts/close-submenus.sh"))
+  (eventbox 
+    :onclick "./scripts/close-submenus.sh" 
+    :onrightclick "./scripts/close-submenus.sh"))
  
 (defwindow my-bar-closer
   :monitor 0
@@ -219,28 +217,10 @@
   :namespace "EWW my-bar closer"
   (w-closer))
 
-(defwindow my-bar-arch-menu
-  :monitor '["<primary>", "eDP-1", 0]'
-  :geometry (geometry 
-              :x "20px"
-              :y "20px"
-              :width 600
-              :height 800
-              :anchor "top left")
-  :stacking "fg"
-  :exclusive false
-  :focusable "none"
-  :namespace "EWW my-bar arch-menu"
-  (w-arch-menu))
-
-(defwidget w-arch-menu []
-  (box(box :class "menu"
-    "test")))
-
 (defwindow my-bar-music
   :monitor '["<primary>", "eDP-1", 0]'
   :geometry (geometry 
-              :x "20px"
+              :x "0%"
               :y "20px"
               :width 800
               :height 600
@@ -251,25 +231,48 @@
   :namespace "EWW my-bar music"
   (w-music))
 
+(deflisten w-music-value
+  :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"" }'
+  `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,40)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
 (defwidget w-music []
-  (box(box :class "menu"
-    "test")))
+  (box :class "music-control"
+    :valign "fill"
+    :halign "fill"
+    :style 'background-image:url("${w-music-value.ArtUrl}");background-position: center;background-size: cover;'
+    (box
+      :spacing 20
+      :orientation "v"
+      :space-evenly true
+      :valign "center"
+      :halign "center"
+      (label :class "label"
+        :unindent false
+        :halign "center"
+        :text "${w-music-value.Title}"
+      )
+      (label :class "label"
+        :unindent false
+        :halign "center"
+        :text "${w-music-value.Album} - ${w-music-value.Artist}"
+      )
+      (box :class "control"
+        :halign "center"
+        :spacing 20
+        (button :class "button" 
+          :onclick "playerctl previous"
+          (label :text " ")
+        )
+        (button :class "button" 
+          :onclick "playerctl play-pause"
+          (label :text "${w-music-value?.Status == "Playing" ? "" : w-music-value?.Status == "Paused" ? "" : "" }")
+        )
+        (button :class "button" 
+          :onclick "playerctl next"
+          (label :text "")
+        )
+      )
+    )
+  )
+)
 
-(defwindow my-bar-calendar
-  :monitor '["<primary>", "eDP-1", 0]'
-  :geometry (geometry 
-              :x "20px"
-              :y "20px"
-              :width 800
-              :height 600
-              :anchor "top right")
-  :stacking "fg"
-  :exclusive false
-  :focusable "none"
-  :namespace "EWW my-bar calendar"
-  (w-calendar))
-
-(defwidget w-calendar []
-  (box(box :class "menu"
-    "test")))
 

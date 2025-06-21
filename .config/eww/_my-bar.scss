@@ -25,6 +25,7 @@ $base:     #1e1e2e;
 $mantle:   #181825;
 $crust:    #11111b;
 
+$radius: 12.6px;
 
 .my-bar {
   background: none;
@@ -40,12 +41,18 @@ $crust:    #11111b;
 
   .workspaces {
     font-family: 'NotoSans Nerd Font';
-    .current {
-      color: $green;
-    }
   }
   .tray > * > * > * > * {
+    font-family: 'NotoSans Nerd Font', 'Noto Sans Mono';
     background: $base;
+    padding: {
+      top: 8px;
+      bottom: 8px;
+    }
+    border-radius: $radius;
+    :hover {
+      background: $surface0;
+    }
   }
 }
 .bar-full {
@@ -57,12 +64,29 @@ $crust:    #11111b;
   all: unset;
   background: none;
 }
-.my-bar-arch-menu, .my-bar-music, .my-bar-calendar {
-  background: none;
-
-  .menu {
-    background: $base;
-    border-radius: 8px;
+.my-bar-arch-menu, .my-bar-music {
+  background: $base;
+  border-radius: $radius;
+  .music-control {
+    .label {
+      background: $base;
+      border-radius: $radius;
+      padding: {
+        left: 20px;
+        right: 20px;
+      }
+    }
+    .button {
+      background: $base;
+      border-radius: $radius;
+      font-size: 20px;
+      padding: {
+        left: 20px;
+        right: 20px;
+      }
+    }
   }
 }
-
+.my-bar-arch-menu * {
+  border: 1px solid white;
+}
