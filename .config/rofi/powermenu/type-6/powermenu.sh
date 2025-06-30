@@ -14,8 +14,8 @@ dir="$HOME/.config/rofi/powermenu/type-6"
 theme='style-1'
 
 # CMDs
-lastlogin="`last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7`"
-uptime="`uptime -p | sed -e 's/up //g'`"
+lastlogin="$(last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7)"
+uptime="$(uptime -p | sed -e 's/up //g')"
 
 # Options
 hibernate=''
@@ -29,88 +29,88 @@ no=''
 
 # Rofi CMD
 rofi_cmd() {
-	rofi -dmenu \
-		-p " $USER@$HOSTNAME" \
-		-mesg " Uptime: $uptime" \
-		-theme ${dir}/${theme}.rasi
+  rofi -dmenu \
+    -p " $USER@$HOSTNAME" \
+    -mesg " Uptime: $uptime" \
+    -theme ${dir}/${theme}.rasi
 }
 
 # Confirmation CMD
 confirm_cmd() {
-	rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
-		-theme-str 'mainbox {orientation: vertical; children: [ "message", "listview" ];}' \
-		-theme-str 'listview {columns: 2; lines: 1;}' \
-		-theme-str 'element-text {horizontal-align: 0.5;}' \
-		-theme-str 'textbox {horizontal-align: 0.5;}' \
-		-dmenu \
-		-p 'Confirmation' \
-		-mesg 'Are you Sure?' \
-		-theme ${dir}/${theme}.rasi
+  rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 350px;}' \
+    -theme-str 'mainbox {orientation: vertical; children: [ "message", "listview" ];}' \
+    -theme-str 'listview {columns: 2; lines: 1;}' \
+    -theme-str 'element-text {horizontal-align: 0.5;}' \
+    -theme-str 'textbox {horizontal-align: 0.5;}' \
+    -dmenu \
+    -p 'Confirmation' \
+    -mesg 'Are you Sure?' \
+    -theme ${dir}/${theme}.rasi
 }
 
 # Ask for confirmation
 confirm_exit() {
-	echo -e "$yes\n$no" | confirm_cmd
+  echo -e "$yes\n$no" | confirm_cmd
 }
 
 # Pass variables to rofi dmenu
 run_rofi() {
-	echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | rofi_cmd
+  echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | rofi_cmd
 }
 
 # Execute Command
 run_cmd() {
-	selected="$(confirm_exit)"
-	if [[ "$selected" == "$yes" ]]; then
-		if [[ $1 == '--shutdown' ]]; then
-			systemctl poweroff
-		elif [[ $1 == '--reboot' ]]; then
-			systemctl reboot
-		elif [[ $1 == '--hibernate' ]]; then
-			loginctl lock-session
-			systemctl hibernate
-		elif [[ $1 == '--suspend' ]]; then
-			loginctl lock-session
-			systemctl suspend
-		elif [[ $1 == '--logout' ]]; then
-			if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
-				openbox --exit
-			elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-				bspc quit
-			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-				i3-msg exit
-			elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
-				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-			elif [[ "$DESKTOP_SESSION" == 'hyprland-uwsm' ]]; then
-				uwsm stop
-			fi
-		elif [[ $1 == '--lock' ]]; then
-			loginctl lock-session
-		fi
-	else
-		exit 0
-	fi
+  selected="$(confirm_exit)"
+  if [[ "$selected" == "$yes" ]]; then
+    if [[ $1 == '--shutdown' ]]; then
+      systemctl poweroff
+    elif [[ $1 == '--reboot' ]]; then
+      systemctl reboot
+    elif [[ $1 == '--hibernate' ]]; then
+      loginctl lock-session
+      systemctl hibernate
+    elif [[ $1 == '--suspend' ]]; then
+      loginctl lock-session
+      systemctl suspend
+    elif [[ $1 == '--logout' ]]; then
+      if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+        openbox --exit
+      elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+        bspc quit
+      elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+        i3-msg exit
+      elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
+        qdbus org.kde.ksmserver /KSMServer logout 0 0 0
+      elif [[ "$DESKTOP_SESSION" == 'hyprland-uwsm' ]]; then
+        uwsm stop
+      fi
+    elif [[ $1 == '--lock' ]]; then
+      loginctl lock-session
+    fi
+  else
+    exit 0
+  fi
 }
 
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
-    $shutdown)
-		run_cmd --shutdown
-        ;;
-    $reboot)
-		run_cmd --reboot
-        ;;
-    $hibernate)
-		run_cmd --hibernate
-        ;;
-    $lock)
-		run_cmd --lock
-	;;
-    $suspend)
-		run_cmd --suspend
-        ;;
-    $logout)
-		run_cmd --logout
-        ;;
+$shutdown)
+  run_cmd --shutdown
+  ;;
+$reboot)
+  run_cmd --reboot
+  ;;
+$hibernate)
+  run_cmd --hibernate
+  ;;
+$lock)
+  run_cmd --lock
+  ;;
+$suspend)
+  run_cmd --suspend
+  ;;
+$logout)
+  run_cmd --logout
+  ;;
 esac

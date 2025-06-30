@@ -57,7 +57,7 @@
 (defwidget arch-menu []
   (eventbox
     :cursor "pointer"
-    :onclick "/home/purplewizard/.config/rofi/scripts/powermenu_t6"
+    :onclick "~/.config/rofi/scripts/powermenu_t6"
     (box :class "arch-menu"
       (label
         :text ""
@@ -67,8 +67,8 @@
   )
 )
 
-(deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces.sh")
-(deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace.sh")
+(deflisten workspaces :initial "[]" "./scripts/get-workspaces.sh")
+(deflisten current_workspace :initial "1" "./scripts/get-active-workspace.sh")
 (defwidget workspaces []
   (box :class "workspaces"
     :spacing 10
@@ -102,13 +102,13 @@
 
 ;middle
 (deflisten cava
-  "bash ~/.config/eww/scripts/cava-internal.sh")
+  "bash ./scripts/cava-internal.sh")
 (defwidget audio-playing []
   (eventbox
     :cursor "pointer"
-    :onclick "./scripts/close-submenus.sh && ${EWW_CMD} open my-bar-closer && ${EWW_CMD} open my-bar-music"
+    :onclick "~/.config/eww/eww_control.sh open my-bar my-bar-closer my-bar-music"
     (box :class "audio-playing"
-      "${cava}" ; " " playerctl metadata --follow
+      "${cava}"
     )
   )
 )
@@ -117,7 +117,7 @@
 (defpoll audio-value
   :interval "2s"
   :initial "{\"Volume\": \"0\", \"Mute\": false}"
-  `bash ~/.config/eww/scripts/get-audio.sh`)
+  `./scripts/get-audio.sh`)
 (defwidget audio-control []
   (eventbox
     :onclick "(uwsm app -- pavucontrol &)"
@@ -153,7 +153,7 @@
 (defvar wifi-str "󰤨󰤥󰤢󰤟󰤯")
 (defwidget wifi []
   (eventbox
-    :onclick "(uwsm app -- kitty --title 'impala' impala &)"
+    :onclick "(kitty --title 'impala' impala &)"
     :cursor "pointer"
     (box :class "wifi"
       (label
@@ -172,7 +172,7 @@
 (defwidget ram-usage []
   (box :class "ram-usage"
     (label
-      :text " ${EWW_RAM.used_mem_perc < 10 ? "0" : "" }${round(EWW_RAM.used_mem_perc, 1)}%" ; "  "
+      :text " ${EWW_RAM.used_mem_perc < 10 ? "0" : "" }${round(EWW_RAM.used_mem_perc, 1)}%"
     )
   )
 )
@@ -206,8 +206,9 @@
 ;https://github.com/elkowar/eww/issues/472#issuecomment-1146860335
 (defwidget w-closer []
   (eventbox 
-    :onclick "./scripts/close-submenus.sh" 
-    :onrightclick "./scripts/close-submenus.sh"))
+    :onclick "~/.config/eww/eww_control.sh close my-bar my-bar-closer my-bar-music"
+    :onrightclick "~/.config/eww/eww_control.sh close my-bar  my-bar-closer my-bar-music"
+    ))
  
 (defwindow my-bar-closer
   :monitor 0
@@ -233,7 +234,7 @@
 
 (deflisten w-music-value
   :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"" }'
-  `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,40)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
+  `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,60)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
 (defwidget w-music []
   (box :class "music-control"
     :valign "fill"

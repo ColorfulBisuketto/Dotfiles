@@ -1,4 +1,3 @@
-; From: https://github.com/Nycta-b424b3c7/eww_activate-linux/tree/master
 (defwindow activate-linux
   :monitor '["<primary>", "eDP-1", 0]'
   :stacking "fg"

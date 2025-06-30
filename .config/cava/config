@@ -159,7 +159,7 @@
 # set 'reverse' to 1 to display frequencies the other way around.
 ; channels = stereo
 ; mono_option = average
-; reverse = 0
+reverse = 1
 
 # Raw output target.
 # On Linux, a fifo will be created if target does not exist.
