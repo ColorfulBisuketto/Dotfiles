@@ -1,0 +1,219 @@
+
+(defpoll wifi-value
+  :interval "2s"
+  :initial "{}"
+  `./my-bar/get-wifi.sh`)
+(defpoll brightness-value
+  :interval "60s"
+  :initial "0%"
+  `brightnessctl -m -d intel_backlight | awk -F, '{print $4}'`)
+(defpoll audio-value
+  :interval "2s"
+  :initial "{\"Volume\": \"0\", \"Mute\": false}"
+  `./my-bar/get-audio.sh`)
+
+(deflisten w-music-value
+  :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"" }'
+  `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,60)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
+(deflisten cava
+  "bash ./my-bar/cava-internal.sh")
+(deflisten workspaces
+  :initial "[]"
+  "./my-bar/get-workspaces.sh")
+(deflisten current_workspace
+  :initial "1"
+  "./my-bar/get-active-workspace.sh")
+
+(defvar bat-str "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹")
+(defvar wifi-str "󰤨󰤥󰤢󰤟󰤯")
+
+
+(defwindow my-bar
+  :monitor '["<primary>", "eDP-1", 0]'
+  :geometry (geometry 
+              :x "0%"
+              :y "0%"
+              :width "100%"
+              :height "35px"
+              :anchor "top center")
+  :stacking "bottom"
+  :windowtype "dock"
+  :exclusive true
+  :focusable "none"
+  :namespace "EWW my-bar"
+  (bar))
+
+(defwidget bar []
+  (centerbox :class "bar-full"
+    :orientation "horizontal"
+    (left)
+    (middle)
+    (right)))
+
+(defwidget left []
+  (box
+    :halign "start"
+    :space-evenly false
+    :spacing 20
+    (arch-menu)
+    (workspaces)
+    (tray)))
+(defwidget middle []
+  (box
+    :halign "center"
+    (audio-playing)))
+(defwidget right []
+  (box
+    :halign "end"
+    :space-evenly false
+    :spacing 20
+    (audio-control)
+    (brightness)
+    (wifi)
+    (cpu-usage)
+    (ram-usage)
+    (battery)
+    (time)))
+
+;left
+(defwidget arch-menu []
+  (eventbox
+    :cursor "pointer"
+    :onclick "(~/.config/rofi/scripts/powermenu_t6 &)"
+    (box :class "arch-menu"
+      (label
+        :text ""
+        :style "font-size: 24px;"))))
+
+(defwidget workspaces []
+  (box :class "workspaces"
+    :spacing 10
+    (for workspace in workspaces
+      (eventbox 
+        :cursor "pointer"
+        :onclick "hyprctl dispatch workspace ${workspace.id}"
+        (box :class "workspace-entry ${workspace.windows > 0 ? "occupied" : "empty"}"
+          (label 
+            :text "${workspace.windows > 0 ? "" : "" }"
+            :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""}" ))))))
+(defwidget tray []
+  (box :class "tray"
+    :halign "start"
+    (systray 
+      :spacing 10
+      :orientation "h"
+      :space-evenly true
+      :icon-size 16
+      :prepend-new true)))
+
+;middle
+(defwidget audio-playing []
+  (eventbox
+    :cursor "pointer"
+    :onclick "eww open-many my-bar-closer my-bar-music"
+    (box :class "audio-playing"
+      "${cava}")))
+
+;right
+(defwidget audio-control []
+  (eventbox
+    :onclick "(uwsm app -- pavucontrol &)"
+    :onscroll "./my-bar/set-audio-volume.sh {} ${EWW_CMD}"
+    :cursor "pointer"
+    (box :class "audio-control"
+      (label
+        :text "${audio-value?.Volume == 0 || audio-value?.Mute == true ? "󰝟" : "${audio-value?.Volume < 25 ? "" : audio-value?.Volume < 75 ? "" : "" } ${audio-value?.Volume}%"}"))))
+(defwidget brightness []
+  (box :class "brightness"
+    (eventbox
+      :onscroll "./my-bar/set-brightness.sh {} ${EWW_CMD}"
+      :cursor "ns-resize"
+      (label
+        :text "󰃟 ${strlength(brightness-value) <3 ? "0" : "" }${brightness-value}"))))
+(defwidget wifi []
+  (eventbox
+    :onclick "(kitty --title 'impala' impala &)"
+    :cursor "pointer"
+    (box :class "wifi"
+      (label
+        :text "${wifi-value?.State != "connected" ? "󰤮" : "${substring(wifi-str, floor(min(max((wifi-value?.RSSI*(-1))-40, 0), 60)/10), 1)}"}"))))
+(defwidget cpu-usage []
+  (box :class "cpu-usage"
+    (label
+      :text " ${EWW_CPU.avg < 10 ? "0" : "" }${round(EWW_CPU.avg, 1)}%")))
+(defwidget ram-usage []
+  (box :class "ram-usage"
+    (label
+      :text " ${EWW_RAM.used_mem_perc < 10 ? "0" : "" }${round(EWW_RAM.used_mem_perc, 1)}%")))
+(defwidget battery []
+  (box :class "battery"
+    (label
+      :text "${EWW_BATTERY.BAT1.status == "Charging" ? "󰂄" : substring(bat-str, round(EWW_BATTERY.total_avg/10, 0), 1)} ${EWW_BATTERY.total_avg < 10 ? "0" : "" }${round(EWW_BATTERY.total_avg, 1)}%")))
+(defwidget time []
+  (box :class "time"
+    :tooltip "${formattime(EWW_TIME, "%d.%m.%Y")}"
+    (label
+      :text "${formattime(EWW_TIME, "%H:%M:%S")}")))
+
+; ### Supporting Windows ###
+;https://github.com/elkowar/eww/issues/472#issuecomment-1146860335
+(defwindow my-bar-closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  :namespace "EWW my-bar closer"
+  (w-closer))
+
+(defwidget w-closer []
+  (eventbox 
+    :onclick "eww close my-bar-closer my-bar-music"
+    :onrightclick "eww close my-bar-closer my-bar-music"))
+ 
+(defwindow my-bar-music
+  :monitor '["<primary>", "eDP-1", 0]'
+  :geometry (geometry 
+              :x "0%"
+              :y "20px"
+              :width 800
+              :height 600
+              :anchor "top center")
+  :stacking "fg"
+  :exclusive false
+  :focusable "none"
+  :namespace "EWW my-bar music"
+  (w-music))
+
+(defwidget w-music []
+  (box :class "music-control"
+    :valign "fill"
+    :halign "fill"
+    :style 'background-image:url("${w-music-value.ArtUrl}");background-position: center;background-size: cover;'
+    (box
+      :spacing 20
+      :orientation "v"
+      :space-evenly true
+      :valign "center"
+      :halign "center"
+      (label :class "label"
+        :unindent false
+        :halign "center"
+        :text "${w-music-value.Title}")
+      (label :class "label"
+        :unindent false
+        :halign "center"
+        :text "${w-music-value.Album} - ${w-music-value.Artist}")
+      (box :class "control"
+        :halign "center"
+        :spacing 20
+        (button :class "button" 
+          :onclick "playerctl previous"
+          (label :text " "))
+        (button :class "button" 
+          :onclick "playerctl play-pause"
+          (label :text "${w-music-value?.Status == "Playing" ? "" : w-music-value?.Status == "Paused" ? "" : "" }"))
+        (button :class "button" 
+          :onclick "playerctl next"
+          (label :text ""))))))
+
+

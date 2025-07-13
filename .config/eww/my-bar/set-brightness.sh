@@ -17,4 +17,4 @@ else
   brightnessctl s "5%-" >/dev/null
 fi
 
-$eww poll brightness-value
+eww poll brightness-value

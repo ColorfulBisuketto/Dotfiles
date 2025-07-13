@@ -3,3 +3,6 @@ copy.sh
 
 # Latitude and Longitude data for your location.
 sunset_location
+
+.ssh/*
+bin/*
