@@ -13,7 +13,7 @@ handle_action() {
     uwsm app -- xdg-open "$HOME/Pictures/Screenshots/"
     ;;
   "delete")
-    rm "$IMAGE"
+    gio trash "$IMAGE"
     ;;
   *) ;;
   esac
