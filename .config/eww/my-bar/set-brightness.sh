@@ -6,12 +6,12 @@ eww=$2
 brightness=$(brightnessctl g)
 
 if [[ $direction == "up" ]]; then
-  if (($brightness >= 96000)); then
+  if (($brightness >= 100)); then
     exit
   fi
   brightnessctl s "+5%" >/dev/null
 else
-  if (($brightness < 5000)); then
+  if (($brightness < 5)); then
     exit
   fi
   brightnessctl s "5%-" >/dev/null

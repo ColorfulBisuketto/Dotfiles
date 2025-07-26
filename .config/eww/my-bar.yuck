@@ -6,7 +6,7 @@
 (defpoll brightness-value
   :interval "60s"
   :initial "0%"
-  `brightnessctl -m -d intel_backlight | awk -F, '{print $4}'`)
+  `brightnessctl -m -c backlight | awk -F, '{print $4}'`)
 (defpoll audio-value
   :interval "2s"
   :initial "{\"Volume\": \"0\", \"Mute\": false}"
