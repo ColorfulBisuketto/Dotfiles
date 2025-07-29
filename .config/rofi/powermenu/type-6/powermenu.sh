@@ -18,20 +18,20 @@ lastlogin="$(last $USER | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7)"
 uptime="$(uptime -p | sed -e 's/up //g')"
 
 # Options
-hibernate=''
-shutdown=''
-reboot=''
-lock=''
-suspend=''
-logout=''
-yes=''
-no=''
+hibernate='󰏦'
+shutdown='⏻'
+reboot=''
+lock='󰌾'
+suspend='󰤄'
+logout='󰗽'
+yes=''
+no=''
 
 # Rofi CMD
 rofi_cmd() {
   rofi -dmenu \
-    -p " $USER@$HOSTNAME" \
-    -mesg " Uptime: $uptime" \
+    -p " $USER@$HOSTNAME" \
+    -mesg " Uptime: $uptime" \
     -theme ${dir}/${theme}.rasi
 }
 
