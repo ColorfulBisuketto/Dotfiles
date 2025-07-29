@@ -15,8 +15,8 @@
 (deflisten w-music-value
   :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"" }'
   `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,60)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
-;(deflisten cava
-;  "bash ./my-bar/cava-internal.sh")
+(deflisten cava
+  "bash ./my-bar/cava-internal.sh")
 (deflisten workspaces
   :initial "[]"
   "./my-bar/get-workspaces.sh")
@@ -61,8 +61,7 @@
 (defwidget middle []
   (box
     :halign "center"
-    ;(audio-playing)
-    ))
+    (audio-playing)))
 (defwidget right []
   (box
     :halign "end"
@@ -108,12 +107,12 @@
       :prepend-new true)))
 
 ;middle
-;(defwidget audio-playing []
-;  (eventbox
-;    :cursor "pointer"
-;    :onclick "eww open-many my-bar-closer my-bar-music"
-;    (box :class "audio-playing"
-;      "${cava}")))
+(defwidget audio-playing []
+  (eventbox
+    :cursor "pointer"
+    :onclick "eww open-many my-bar-closer my-bar-music"
+    (box :class "audio-playing"
+      "${cava}")))
 
 ;right
 (defwidget audio-control []
