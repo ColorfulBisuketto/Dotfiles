@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IDENTITY=6500 # see hyprsunset wiki
+IDENTITY=6000 # see hyprsunset wiki
 CURRENT="$(hyprctl hyprsunset temperature)"
 
 if [[ $CURRENT != $IDENTITY ]]; then

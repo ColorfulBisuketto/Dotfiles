@@ -3,6 +3,10 @@
 ;  :interval "2s"
 ;  :initial "{}"
 ;  `./my-bar/get-wifi.sh`)
+(defpoll idle-value
+  :interval "60s"
+  :initial "inactive"
+  `./my-bar/inhibit.sh status`)
 (defpoll brightness-value
   :interval "60s"
   :initial "0%"
@@ -67,6 +71,7 @@
     :halign "end"
     :space-evenly false
     :spacing 20
+    (idle)
     (audio-control)
     (brightness)
     (wifi)
@@ -115,6 +120,13 @@
       "${cava}")))
 
 ;right
+(defwidget idle []
+  (eventbox
+    :onclick "./my-bar/inhibit.sh toggle"
+    :cursor "pointer"
+    (box :class "idle"
+      (label
+        :text "${ idle-value == "inactive" ? "󱎫 " : "󱎬 " }"))))
 (defwidget audio-control []
   (eventbox
     :onclick "(uwsm app -- pavucontrol &)"
