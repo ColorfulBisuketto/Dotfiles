@@ -25,7 +25,7 @@ $base:     #1e1e2e;
 $mantle:   #181825;
 $crust:    #11111b;
 
-$radius: 12.6px;
+$radius: 16px;
 
 .my-bar {
   background: none;
@@ -39,7 +39,7 @@ $radius: 12.6px;
   color: #cdd6f4;
   font-family: 'DaddyTimeMono Nerd Font', 'NotoSans Nerd Font', 'Noto Sans Mono';
 
-  .workspaces {
+  .my-bar-workspaces {
     font-family: 'NotoSans Nerd Font';
   }
   .tray > * > * > * > * {
@@ -64,29 +64,31 @@ $radius: 12.6px;
   all: unset;
   background: none;
 }
-.my-bar-arch-menu, .my-bar-music {
-  background: $base;
-  border-radius: $radius;
-  .music-control {
-    .label {
-      background: $base;
-      border-radius: $radius;
-      padding: {
-        left: 20px;
-        right: 20px;
-      }
-    }
-    .button {
-      background: $base;
-      border-radius: $radius;
-      font-size: 20px;
-      padding: {
-        left: 20px;
-        right: 20px;
-      }
-    }
+.my-bar-music {
+  all: unset;
+  font-family: 'NotoSans Nerd Font', 'Noto Sans Mono';
+  font-size: 16px;
+  background: $mantle;
+  border-radius: 24px;
+  padding: 24px;
+  .music-image {
+    border-radius: $radius;
+    box-shadow: 0 0 24px #000;
   }
-}
-.my-bar-arch-menu * {
-  border: 1px solid white;
+  .title {
+    font-weight: bold;
+    font-size: 24px;
+  }
+  .artist {
+    font-size: 20px;
+  }
+  .album {
+    font-size: 16px;
+  }
+  .control {
+    font-size: 32px;
+    font-weight: bold;
+    background: $mantle;
+    border-radius: $radius;
+  }
 }

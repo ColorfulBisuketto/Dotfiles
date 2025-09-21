@@ -1,35 +1,39 @@
 
-;(defpoll wifi-value
-;  :interval "2s"
-;  :initial "{}"
-;  `./my-bar/get-wifi.sh`)
-(defpoll idle-value
+(defpoll wifi-value
+  :interval "2s"
+  :initial "{}"
+  `./my-bar/get-wifi.sh`)
+(defpoll my-bar-idle-value
   :interval "60s"
   :initial "inactive"
   `./my-bar/inhibit.sh status`)
-(defpoll brightness-value
+(defpoll my-bar-brightness-value
   :interval "60s"
   :initial "0%"
   `brightnessctl -m -c backlight | awk -F, '{print $4}'`)
-(defpoll audio-value
+(defpoll my-bar-audio-value
   :interval "2s"
   :initial "{\"Volume\": \"0\", \"Mute\": false}"
   `./my-bar/get-audio.sh`)
+(defpoll my-bar-w-music-position
+  :interval "1s"
+  :initial "0.0"
+  `playerctl position`)
 
-(deflisten w-music-value
-  :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"" }'
-  `playerctl metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,60)}}", "ArtUrl":"{{mpris:artUrl}}" }'`)
-(deflisten cava
+(deflisten my-bar-w-music-value
+  :initial '{"Status":"", "Album":"", "Artist":"", "Title":"", "ArtUrl":"", "Length":"0"" }'
+  `playerctl --player=vlc,io.bassi.Amberol,spotify metadata --follow --format '{"Status":"{{status}}", "Album":"{{album}}", "Artist":"{{artist}}", "Title":"{{trunc(title,60)}}", "ArtUrl":"{{mpris:artUrl}}", "Length":"{{mpris:length}}" }'`)
+(deflisten my-bar-cava
   "bash ./my-bar/cava-internal.sh")
-(deflisten workspaces
+(deflisten my-bar-workspaces
   :initial "[]"
   "./my-bar/get-workspaces.sh")
-(deflisten current_workspace
+(deflisten my-bar-current_workspace
   :initial "1"
   "./my-bar/get-active-workspace.sh")
 
-(defvar bat-str "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹")
-(defvar wifi-str "󰤨󰤥󰤢󰤟󰤯")
+(defvar my-bar-bat-str "󰂎󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰁹")
+(defvar my-bar-wifi-str "󰤯󰤟󰤢󰤥󰤨")
 
 
 (defwindow my-bar
@@ -45,43 +49,43 @@
   :exclusive true
   :focusable "none"
   :namespace "EWW my-bar"
-  (bar))
+  (my-bar-bar))
 
-(defwidget bar []
+(defwidget my-bar-bar []
   (centerbox :class "bar-full"
     :orientation "horizontal"
-    (left)
-    (middle)
-    (right)))
+    (my-bar-left)
+    (my-bar-middle)
+    (my-bar-right)))
 
-(defwidget left []
+(defwidget my-bar-left []
   (box
     :halign "start"
     :space-evenly false
     :spacing 20
-    (arch-menu)
-    (workspaces)
-    (tray)))
-(defwidget middle []
+    (my-bar-arch-menu)
+    (my-bar-workspaces)
+    (my-bar-tray)))
+(defwidget my-bar-middle []
   (box
     :halign "center"
-    (audio-playing)))
-(defwidget right []
+    (my-bar-audio-playing)))
+(defwidget my-bar-right []
   (box
     :halign "end"
     :space-evenly false
     :spacing 20
-    (idle)
-    (audio-control)
-    (brightness)
-    (wifi)
-    (cpu-usage)
-    (ram-usage)
-    (battery)
-    (time)))
+    (my-bar-idle)
+    (my-bar-audio-control)
+    (my-bar-brightness)
+    (my-bar-wifi)
+    (my-bar-cpu-usage)
+    (my-bar-ram-usage)
+    (my-bar-battery)
+    (my-bar-time)))
 
 ;left
-(defwidget arch-menu []
+(defwidget my-bar-arch-menu []
   (eventbox
     :cursor "pointer"
     :onclick "(~/.config/rofi/scripts/powermenu_t6 &)"
@@ -90,18 +94,19 @@
         :text " "
         :style "font-size: 24px;"))))
 
-(defwidget workspaces []
-  (box :class "workspaces"
-    :spacing 10
-    (for workspace in workspaces
+(defwidget my-bar-workspaces []
+  (box :class "my-bar-workspaces"
+    :spacing 5
+    (for workspace in my-bar-workspaces
       (eventbox 
+            :width 20
         :cursor "pointer"
         :onclick "hyprctl dispatch workspace ${workspace.id}"
         (box :class "workspace-entry ${workspace.windows > 0 ? "occupied" : "empty"}"
           (label 
             :text "${workspace.windows > 0 ? "" : "" }"
-            :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""}" ))))))
-(defwidget tray []
+            :class "workspace-entry ${workspace.id == my-bar-current_workspace ? "current" : ""}" ))))))
+(defwidget my-bar-tray []
   (box :class "tray"
     :halign "start"
     (systray 
@@ -112,58 +117,58 @@
       :prepend-new true)))
 
 ;middle
-(defwidget audio-playing []
+(defwidget my-bar-audio-playing []
   (eventbox
     :cursor "pointer"
     :onclick "eww open-many my-bar-closer my-bar-music"
     (box :class "audio-playing"
-      "${cava}")))
+      "${my-bar-cava}")))
 
 ;right
-(defwidget idle []
+(defwidget my-bar-idle []
   (eventbox
     :onclick "./my-bar/inhibit.sh toggle"
     :cursor "pointer"
     (box :class "idle"
       (label
-        :text "${ idle-value == "inactive" ? "󱎫 " : "󱎬 " }"))))
-(defwidget audio-control []
+        :text "${ my-bar-idle-value == "inactive" ? "󱎫 " : "󱎬 " }"))))
+(defwidget my-bar-audio-control []
   (eventbox
     :onclick "(uwsm app -- pavucontrol &)"
     :onscroll "./my-bar/set-audio-volume.sh {} ${EWW_CMD}"
     :cursor "pointer"
     (box :class "audio-control"
       (label
-        :text "${audio-value?.Volume == 0 || audio-value?.Mute == true ? "󰝟" : "${audio-value?.Volume < 25 ? "" : audio-value?.Volume < 75 ? "" : "" } ${audio-value?.Volume}%"}"))))
-(defwidget brightness []
+        :text "${my-bar-audio-value?.Volume == 0 || my-bar-audio-value?.Mute == true ? "󰝟" : "${my-bar-audio-value?.Volume < 25 ? "" : my-bar-audio-value?.Volume < 75 ? "" : "" } ${my-bar-audio-value?.Volume}%"}"))))
+(defwidget my-bar-brightness []
   (box :class "brightness"
     (eventbox
       :onscroll "./my-bar/set-brightness.sh {} ${EWW_CMD}"
       :onclick "./my-bar/toggle_blue_filter.sh"
       :cursor "pointer"
       (label
-        :text "󰃟 ${strlength(brightness-value) <3 ? "0" : "" }${brightness-value}"))))
-(defwidget wifi []
+        :text "󰃟 ${strlength(my-bar-brightness-value) <3 ? "0" : "" }${my-bar-brightness-value}"))))
+(defwidget my-bar-wifi []
   (eventbox
     :onclick "(nm-connection-editor &)" ;"(kitty --title 'impala' impala &)"
     :cursor "pointer"
     (box :class "wifi"
       (label
-        :text "󰤨 " ;"${wifi-value?.State != "connected" ? "󰤮" : "${substring(wifi-str, floor(min(max((wifi-value?.RSSI*(-1))-40, 0), 60)/10), 1)}"}"
+        :text "${wifi-value?.State != "connected" ? "󰤮 " : "${substring(my-bar-wifi-str,ceil((min(max(wifi-value?.RSSI -40, 0),40)/40)*5),1)} "}"
         ))))
-(defwidget cpu-usage []
+(defwidget my-bar-cpu-usage []
   (box :class "cpu-usage"
     (label
       :text " ${EWW_CPU.avg < 10 ? "0" : "" }${round(EWW_CPU.avg, 1)}%")))
-(defwidget ram-usage []
+(defwidget my-bar-ram-usage []
   (box :class "ram-usage"
     (label
       :text " ${EWW_RAM.used_mem_perc < 10 ? "0" : "" }${round(EWW_RAM.used_mem_perc, 1)}%")))
-(defwidget battery []
+(defwidget my-bar-battery []
   (box :class "battery"
     (label
-      :text "${EWW_BATTERY.BAT1.status == "Charging" ? "󰂄" : substring(bat-str, round(EWW_BATTERY.total_avg/10, 0), 1)} ${EWW_BATTERY.total_avg < 10 ? "0" : "" }${round(EWW_BATTERY.total_avg, 1)}%")))
-(defwidget time []
+      :text "${EWW_BATTERY.BAT1.status == "Charging" ? "󰂄" : substring(my-bar-bat-str, round(EWW_BATTERY.total_avg/10, 0), 1)} ${EWW_BATTERY.total_avg < 10 ? "0" : "" }${round(EWW_BATTERY.total_avg, 1)}%")))
+(defwidget my-bar-time []
   (box :class "time"
     :tooltip "${formattime(EWW_TIME, "%d.%m.%Y")}"
     (label
@@ -177,9 +182,9 @@
   :stacking "fg"
   :focusable false
   :namespace "EWW my-bar closer"
-  (w-closer))
+  (my-bar-w-closer))
 
-(defwidget w-closer []
+(defwidget my-bar-w-closer []
   (eventbox 
     :onclick "eww close my-bar-closer my-bar-music"
     :onrightclick "eww close my-bar-closer my-bar-music"))
@@ -189,45 +194,61 @@
   :geometry (geometry 
               :x "0%"
               :y "20px"
-              :width 800
-              :height 600
+              ;:width 428
+              ;:height 104
               :anchor "top center")
   :stacking "fg"
   :exclusive false
   :focusable "none"
   :namespace "EWW my-bar music"
-  (w-music))
+  (my-bar-w-music))
 
-(defwidget w-music []
-  (box :class "music-control"
-    :valign "fill"
-    :halign "fill"
-    :style 'background-image:url("${w-music-value.ArtUrl}");background-position: center;background-size: cover;'
-    (box
+(defwidget my-bar-w-music []
+  (box 
+    :spacing 20
+    (box :class "music-image"
+      :style 'background-image:url("${my-bar-w-music-value.ArtUrl}");background-position: center;background-size: cover;'
+      :width 256
+      :height 256)
+    (box 
+      :space-evenly false
       :spacing 20
-      :orientation "v"
-      :space-evenly true
-      :valign "center"
-      :halign "center"
-      (label :class "label"
-        :unindent false
-        :halign "center"
-        :text "${w-music-value.Title}")
-      (label :class "label"
-        :unindent false
-        :halign "center"
-        :text "${w-music-value.Album} - ${w-music-value.Artist}")
-      (box :class "control"
-        :halign "center"
-        :spacing 20
-        (button :class "button" 
-          :onclick "playerctl previous"
-          (label :text " "))
-        (button :class "button" 
-          :onclick "playerctl play-pause"
-          (label :text "${w-music-value?.Status == "Playing" ? "" : w-music-value?.Status == "Paused" ? "" : "" }"))
-        (button :class "button" 
-          :onclick "playerctl next"
-          (label :text ""))))))
+      :valign "end"
+      :orientation "v" 
+      ;; Song info
+      (box 
+        :orientation "v"
+        :space-evenly false
+        (label :class "title"
+          :truncate false
+          :limit-width 24
+          :lines 2
+          :text "${my-bar-w-music-value.Title}")
+        (label :class "artist"
+          :truncate true
+          :limit-width 24
+          :lines 1
+          :text "${my-bar-w-music-value.Artist}")
+        (label :class "album"
+          :truncate true
+          :limit-width 24
+          :lines 1
+          :text "${my-bar-w-music-value.Album}"))
 
+      ;; Controls
+      (box 
+        :orientation "h" 
+        :halign "center" 
+        :spacing 5
+        (button :class "control" 
+          :onclick "playerctl --player=vlc,io.bassi.Amberol,spotify previous" "󰒮")
+        (button :class "control" 
+          :onclick "playerctl --player=vlc,io.bassi.Amberol,spotify play-pause" 
+          "${my-bar-w-music-value?.Status == "Playing" ? "󰏤" : my-bar-w-music-value?.Status == "Paused" ? "󰐊" : "󰓛" }")
+        (button :class "control" 
+          :onclick "playerctl --player=vlc,io.bassi.Amberol,spotify next" "󰒭"))
+
+      ;; Progress bar
+      (scale :class "progress"
+        :min 0 :max "${my-bar-w-music-value.Length/1000000}" :value "${my-bar-w-music-position}" :draw-value false))))
 

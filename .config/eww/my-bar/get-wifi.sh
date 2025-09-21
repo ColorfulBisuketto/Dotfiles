@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-result=$(iwctl station wlan0 show | awk '/ +(State|RSSI)/ {printf "\"%s\": \"%s\", ", $1, $2}')
+RSSI=$(nmcli dev wifi list | awk '/\*/{if (NR!=1) {print $10}}')
+STATE=$(nmcli -g STATE g)
 
-if [[ -z $result ]]; then
-  echo '{"State": "disconnected", "RSSI": "-99"}'
-else
-  echo "{${result::-2}}"
-fi
+echo "{ \"State\": \"$STATE\", \"RSSI\": \"$RSSI\" }"

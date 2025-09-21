@@ -1,2 +1,3 @@
 (include "./activate-linux.yuck")
 (include "./my-bar.yuck")
+;(include "./saimoomedits-bar.yuck")

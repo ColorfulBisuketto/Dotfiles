@@ -1,37 +1,36 @@
 ;; Variables
-(defpoll clock_time :interval "5m" "date +\%I")
+(defpoll clock_time :interval "5m" "date +\%H")
 (defpoll clock_minute :interval "5s" "date +\%M")
 (defpoll clock_date :interval "10h" "date '+%d/%m'")
-(defpoll volume_percent :interval "3s" "pactl -f json get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | tr -d '%'")
-(defpoll mic_percent :interval "3s" "pactl -f json get-source-volume @DEFAULT_SOURCE@ | awk '{print $5}' | tr -d '%'")
-(defpoll brightness_percent :interval "5s" "brightnessctl -m -d intel_backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
-(defpoll battery :interval "15s" "./scripts/battery --bat")
-(defpoll battery_status :interval "1m" "./scripts/battery --bat-st")
-(defpoll memory :interval "15s" "./scripts/memory")
-(defpoll memory_used_mb :interval "2m" "./scripts/mem-ad used")
-(defpoll memory_total_mb :interval "2m" "./scripts/mem-ad total")
-(defpoll memory_free_mb :interval "2m" "./scripts/mem-ad free")
+(defpoll volume_percent :interval "3s" :initial "0" "./saimoomedits-bar/volume --vol")
+(defpoll mic_percent :interval "3s" "amixer -D pulse sget Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'")
+(defpoll brightness_percent :interval "5s" :initial "0" "brightnessctl -m -c backlight | awk -F, '{print substr($4, 0, length($4)-1)}' | tr -d '%'")
+(defpoll battery :interval "15s" :initial "0" "./saimoomedits-bar/battery --bat")
+(defpoll battery_status :interval "1m" "./saimoomedits-bar/battery --bat-st")
+(defpoll memory :interval "15s" :initial "0" "./saimoomedits-bar/memory")
+(defpoll memory_used_mb :interval "2m" "./saimoomedits-bar/mem-ad used")
+(defpoll memory_total_mb :interval "2m" "./saimoomedits-bar/mem-ad total")
+(defpoll memory_free_mb :interval "2m" "./saimoomedits-bar/mem-ad free")
 (defvar vol_reveal false)
 (defvar br_reveal false)
 (defvar music_reveal false)
 (defvar wifi_rev false)
 (defvar time_rev false)
-;(deflisten workspace "./scripts/workspace")
-(deflisten workspaces :initial "[]" "./scripts/get-workspaces.sh")
+(deflisten workspaces :initial "[]" "./my-bar/get-workspaces.sh")
 
-(defvar eww "eww -c $HOME/.config/eww/saimoom-bar")
-
-
-(defpoll COL_WLAN :interval "1m" "~/.config/eww/saimoom-bar/scripts/wifi --COL")
-(defpoll ESSID_WLAN :interval "1m" "~/.config/eww/saimoom-bar/scripts/wifi --ESSID")
-(defpoll WLAN_ICON :interval "1m" "~/.config/eww/saimoom-bar/scripts/wifi --ICON")
+(defvar eww "eww")
 
 
-(defpoll song :interval "2s"  "~/.config/eww/saimoom-bar/scripts/music_info --song")
-(defpoll song_artist :interval "2s"  "~/.config/eww/saimoom-bar/scripts/music_info --artist")
-(defpoll current_status :interval "1s"  "~/.config/eww/saimoom-bar/scripts/music_info --time")
-(defpoll song_status :interval "2s"  "~/.config/eww/saimoom-bar/scripts/music_info --status")
-(defpoll cover_art :interval "2s"  "~/.config/eww/saimoom-bar/scripts/music_info --cover")
+(defpoll COL_WLAN :interval "1m" :initial "#000000" "~/.config/eww/saimoomedits-bar/wifi --COL")
+(defpoll ESSID_WLAN :interval "1m" "~/.config/eww/saimoomedits-bar/wifi --ESSID")
+(defpoll WLAN_ICON :interval "1m" "~/.config/eww/saimoomedits-bar/wifi --ICON")
+
+
+(defpoll song :interval "2s"  "~/.config/eww/saimoomedits-bar/music_info --song")
+(defpoll song_artist :interval "2s"  "~/.config/eww/saimoomedits-bar/music_info --artist")
+(defpoll current_status :interval "1s"  "~/.config/eww/saimoomedits-bar/music_info --time")
+(defpoll song_status :interval "2s"  "~/.config/eww/saimoomedits-bar/music_info --status")
+(defpoll cover_art :interval "2s"  "~/.config/eww/saimoomedits-bar/music_info --cover")
 
 (defpoll calendar_day :interval "20h" "date '+%d'")
 (defpoll calendar_year :interval "20h" "date '+%Y'")
@@ -42,36 +41,23 @@
   (eventbox :onhover "${eww} update wifi_rev=true"
 			  :onhoverlost "${eww} update wifi_rev=false"
 		(box :vexpand "false" :hexpand "false" :space-evenly "false"
-				(button :class "module-wif" :onclick "networkmanager_dmenu" :limit-width 12 :style "color: ${COL_WLAN};" WLAN_ICON)
+				(button :class "module-wif" :onclick "networkmanager_dmenu" 
+          (label
+                :limit-width 12 
+                :style "color: ${COL_WLAN};"
+            :text "${WLAN_ICON}"))
 	(revealer :transition "slideright"
 			  :reveal wifi_rev
 			  :duration "350ms"
 	(label    :class "module_essid"
 			  :text ESSID_WLAN
-			  :orientation "h"
+			  ;:orientation "h"
 			  )))))
 
 
 ;(defwidget workspaces []
 ;  (literal :content workspace))
 
-(defwidget workspaces []
-  (box :class "works"
-    :spacing 10
-    (for workspace in workspaces
-      (eventbox 
-        :cursor "pointer"
-        :onclick "hyprctl dispatch workspace ${workspace.id}"
-        (box :class "workspace-entry ${workspace.windows > 0 ? "occupied" : "empty"}"
-          (label 
-            :text "${workspace.windows > 0 ? "" : "" }"
-            ; workspace.id
-            :class "workspace-entry" )
-        )
-      )
-    )
-  )
-)
 
 (defwidget bat []
 		(box :class "bat_module" :vexpand "false" :hexpand "false" 
@@ -80,11 +66,10 @@
                 :thickness 4
             (button 
                 :class "iconbat"
-                :limit-width 2
+                ;:limit-width 2
                 :tooltip "battery on ${battery}%"
-                :show_truncated false
-                :onclick "$HOME/.config/eww/bar/scripts/pop system"
-                :wrap false
+                ;:show-truncated false
+                :onclick "$HOME/.config/eww/saimoomedits-bar/pop system"
                 ""))))
 
 
@@ -95,11 +80,10 @@
                 :thickness 4
             (button 
                 :class "iconmem"
-                :limit-width 2
+                ;:limit-width 2
                 :tooltip "using ${memory}% ram"
-                :onclick "$HOME/.config/eww/bar/scripts/pop system"
-                :show_truncated false
-                :wrap false
+                :onclick "$HOME/.config/eww/saimoomedits-bar/pop system"
+                ;:show-truncated false
                 ""))))
 
 
@@ -119,7 +103,7 @@
 			  :reveal time_rev
 			  :duration "350ms"
       (button :class "clock_date_class"
-             :onclick "$HOME/.config/eww/bar/scripts/pop calendar" clock_date
+             :onclick "$HOME/.config/eww/saimoomedits-bar/pop calendar" clock_date
         )
   ))))
   
@@ -127,22 +111,22 @@
   (eventbox :onhover "${eww} update vol_reveal=true"
 			  :onhoverlost "${eww} update vol_reveal=false"
   (box :class "module-2" :space-evenly "false" :orientation "h" :spacing "3" 
-	(button   :onclick "scripts/pop audio"   :class "volume_icon" "")
+	(button   :onclick "scripts/pop audio"   :class "volume_icon" "")
 	(revealer :transition "slideleft"
 			  :reveal vol_reveal
 			  :duration "350ms"
-	(scale    :class "volbar"
+	(scale :class "volbar"
 			  :value volume_percent
 			  :orientation "h"
 			  :tooltip "${volume_percent}%"
 			  :max 100
 			  :min 0
-			  :onchange "amixer -D pulse sset Master {}%" )))))
+			  :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%" )))))
 
 (defwidget bright []
   (eventbox :onhover "${eww} update br_reveal=true" :onhoverlost "${eww} update br_reveal=false"
   (box :class "module-2" :space-evenly "false" :orientation "h" :spacing "3" 
-    (label :text "" :class "bright_icon" :tooltip "brightness")
+    (label :text "󰃟" :class "bright_icon" :tooltip "brightness")
 	(revealer :transition "slideleft"
 			  :reveal br_reveal
 			  :duration "350ms"
@@ -162,14 +146,14 @@
 			  :onhoverlost "${eww} update music_reveal=false"
 		(box :class "module-2" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false" 
 			(box :class "song_cover_art" :vexpand "false" :hexpand "false" :style "background-image: url('${cover_art}');")
-			(button :class "song" :wrap "true" :onclick "~/.config/eww/bar/scripts/pop music" song)
+			(button :class "song"  :onclick "~/.config/eww/saimoomedits-bar/pop music" song)
 	    (revealer :transition "slideright"
 			      :reveal music_reveal
 			      :duration "350ms"
           (box :vexpand "false" :hexpand "false" :orientation "h" 
-                    (button :class "song_btn_prev" :onclick "~/.config/eww/bar/scripts/music_info --prev" "")
-					(button :class "song_btn_play" :onclick "~/.config/eww/bar/scripts/music_info --toggle" song_status)
-					(button :class "song_btn_next" :onclick "~/.config/eww/bar/scripts/music_info --next" ""))))))
+                    (button :class "song_btn_prev" :onclick "~/.config/eww/saimoomedits-bar/music_info --prev" "")
+					(button :class "song_btn_play" :onclick "~/.config/eww/saimoomedits-bar/music_info --toggle" song_status)
+					(button :class "song_btn_next" :onclick "~/.config/eww/saimoomedits-bar/music_info --next" ""))))))
 
 
 
@@ -193,7 +177,7 @@
 		 :space-evenly false  
          :halign "start"
 		 :class "right_modules"
-(workspaces)))
+(my-bar-workspaces)))
 
 
 (defwidget center []
@@ -211,18 +195,16 @@
   (left)
     ))
 
-(defwindow saimoom-bar
+(defwindow bar
+  :exclusive true
   :monitor '["<primary>", "eDP-1", 0]'
           :geometry (geometry :x "0%"
                        :y "9px"
                        :width "98%"
                        :height "30px"
                        :anchor "top center")
-          :stacking "bottom"
+          :stacking "fg"
           :windowtype "dock"
-  :exclusive true
-  :focusable "none"
-  :namespace "EWW saimoom-bar"
   (bar_1))
   
 (defwidget system []
@@ -234,27 +216,27 @@
             (label :text ""
                 :class "sys_icon_bat"
                 :limit-width 2
-                :show_truncated false
-                :wrap false))
+                :show-truncated false
+              ))
             (box :orientation "v" :space-evenly "false" :spacing 0 :hexpand "false" :vexpand "false"
             (label :text "battery"
                 :halign "start"
                 :class "sys_text_bat"
                 :limit-width 9
-                :show_truncated false
-                :wrap false)
+                :show-truncated false
+                )
             (label :text "${battery}%"
                 :halign "start"
                 :class "sys_text_bat_sub"
                 :limit-width 22
-                :show_truncated false
-                :wrap false)
+                :show-truncated false
+                )
             (label :text "${battery_status}"
                 :halign "start"
                 :class "sys_text_bat_sub"
                 :limit-width 22
-                :show_truncated false
-                :wrap false)))
+                :show-truncated false
+                )))
             (label :text "" :class "sys_sep" :halign "center")
   (box :class "sys_mem_box" :orientation "h" :space-evenly "false" :halign "start"
       (circular-progress :value memory
@@ -263,28 +245,27 @@
             (label :text ""
                 :class "sys_icon_mem"
                 :limit-width 2
-                :show_truncated false
-                :wrap false
+                :show-truncated false
                 :angle 0.0))
             (box :orientation "v" :space-evenly "false" :spacing 0 :hexpand "false" :vexpand "false"
             (label :text "memory"
                 :halign "start"
                 :class "sys_text_mem"
                 :limit-width 9
-                :show_truncated false
-                :wrap false)
+                :show-truncated false
+                )
             (label :text "${memory_used_mb} | ${memory_total_mb}mb "
                 :halign "start"
                 :class "sys_text_mem_sub"
                 :limit-width 22
-                :show_truncated false
-                :wrap false)
+                :show-truncated false
+                )
             (label :text "${memory_free_mb}mb free"
                 :halign "start"
                 :class "sys_text_mem_sub"
                 :limit-width 22
-                :show_truncated false
-                :wrap false)))))
+                :show-truncated false
+                )))))
 
 (defwidget cal []
 	(box :class "cal" :orientation "v"
@@ -294,6 +275,7 @@
 			  :year calendar_year))))
 
 (defwindow calendar
+  :monitor '["<primary>", "eDP-1", 0]'
 	:geometry (geometry :x "-20px" 
 						:y "7%" 
                         :anchor "top right"
@@ -332,6 +314,7 @@
 			  :min 0))))))
 
 (defwindow audio_ctl
+  :monitor '["<primary>", "eDP-1", 0]'
 	:geometry (geometry :x "-20px" 
 						:y "7%" 
                         :anchor "top right"
@@ -341,6 +324,7 @@
 
 
 (defwindow system
+  :monitor '["<primary>", "eDP-1", 0]'
 	:geometry (geometry :x "-20px" 
 						:y "7%" 
                         :anchor "top right"
@@ -355,18 +339,19 @@
 		(box :class "music_pop" :orientation "h" :space-evenly "false" :vexpand "false" :hexpand "false"
 			(box :class "music_cover_art" :vexpand "false" :hexpand "false" :style "background-image: url('${cover_art}');")
 			(box :orientation "v" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false"
-				(label :halign "center" :class "music" :wrap "true" :limit-width 13 :text song)
-				(label :halign "center" :class "music_artist" :wrap "true" :limit-width 15 :text song_artist)
+				(label :halign "center" :class "music"  :limit-width 13 :text song)
+				(label :halign "center" :class "music_artist"  :limit-width 15 :text song_artist)
 				(box :orientation "h" :spacing 15 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false"
-					(button :class "music_btn_prev" :onclick "~/.config/eww/bar/scripts/music_info --prev" "")
-					(button :class "music_btn_play" :onclick "~/.config/eww/bar/scripts/music_info --toggle" song_status)
-					(button :class "music_btn_next" :onclick "~/.config/eww/bar/scripts/music_info --next" ""))
+					(button :class "music_btn_prev" :onclick "~/.config/eww/saimoomedits-bar/music_info --prev" "")
+					(button :class "music_btn_play" :onclick "~/.config/eww/saimoomedits-bar/music_info --toggle" song_status)
+					(button :class "music_btn_next" :onclick "~/.config/eww/saimoomedits-bar/music_info --next" ""))
 				(box :class "music_bar" :halign "center" :vexpand "false" :hexpand "false" :space-evenly "false"
 					(scale :onscroll "mpc -q seek {}" :min 0 :active "true" :max 100 :value current_status)))))
 
 
 ;;  music
 		(defwindow music_win :stacking "fg" :focusable "false" :screen 1
+  :monitor '["<primary>", "eDP-1", 0]'
 			    :geometry (geometry :x "0" :y "7%" :width 428 :height 104 :anchor "top center")
 			     				(music_pop))
 

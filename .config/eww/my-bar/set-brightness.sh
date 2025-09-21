@@ -6,7 +6,7 @@ eww=$2
 brightness=$(brightnessctl g)
 
 if [[ $direction == "up" ]]; then
-  if (($brightness >= 100)); then
+  if (($brightness >= 96000)); then
     exit
   fi
   brightnessctl s "+5%" >/dev/null
@@ -17,4 +17,4 @@ else
   brightnessctl s "5%-" >/dev/null
 fi
 
-eww poll brightness-value
+eww poll my-bar-brightness-value

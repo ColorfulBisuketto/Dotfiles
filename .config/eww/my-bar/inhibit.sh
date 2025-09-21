@@ -39,7 +39,7 @@ toggle_inhibit() {
   else
     start_inhibit
   fi
-  eww poll idle-value
+  eww poll my-bar-idle-value
 }
 
 status_inhibit() {

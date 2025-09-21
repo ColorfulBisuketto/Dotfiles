@@ -9,4 +9,4 @@ else
   pactl set-sink-volume 0 -5%
 fi
 
-eww poll audio-value
+eww poll my-bar-audio-value
