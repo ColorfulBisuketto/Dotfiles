@@ -5,6 +5,6 @@ Requires=hyprpaper.service
 After=hyprpaper.service
 
 [Service]
-ExecStart=/home/%u/.config/hypr/scripts/change_wallpaper_random.sh
+ExecStart=/usr/local/bin/change-wallpaper-random.sh
 
 

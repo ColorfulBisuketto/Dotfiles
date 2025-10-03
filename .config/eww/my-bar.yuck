@@ -127,7 +127,7 @@
 ;right
 (defwidget my-bar-idle []
   (eventbox
-    :onclick "./my-bar/inhibit.sh toggle"
+    :onclick "idle-inhubitor.sh toggle"
     :cursor "pointer"
     (box :class "idle"
       (label
@@ -144,7 +144,7 @@
   (box :class "brightness"
     (eventbox
       :onscroll "./my-bar/set-brightness.sh {} ${EWW_CMD}"
-      :onclick "./my-bar/toggle_blue_filter.sh"
+      :onclick "toggle-blue-light-filter.sh"
       :cursor "pointer"
       (label
         :text "󰃟 ${strlength(my-bar-brightness-value) <3 ? "0" : "" }${my-bar-brightness-value}"))))
