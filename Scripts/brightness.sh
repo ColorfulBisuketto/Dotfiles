@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 
-CURRENT_BRIGHTNESS=$((($(brightnessctl g) * 100) / $(brightnessctl m)))
+CURRENT_BRIGHTNESS_PERCENT=$((($(brightnessctl g) * 100) / $(brightnessctl m)))
 
 # internal display
-LOW_PERCENT=20
-HIGHT_PERCENT=75
+LOW_PERCENT_INTERNAL=25
+HIGH_PERCENT_INTERNAL=75
+
+# vcp options for readability
+BRIGHTNESS=10
+CONTRAST=12
 
 bright() {
-  ddcutil setvcp 10 50 12 50
-  brightnessctl s "$HIGHT_PERCENT%" >/dev/null
+  ddcutil setvcp $BRIGHTNESS 50 $CONTRAST 50
+  brightnessctl s "$HIGH_PERCENT_INTERNAL%" >/dev/null
 }
 
 dark() {
-  ddcutil setvcp 10 0 12 0
-  brightnessctl s "$LOW_PERCENT%" >/dev/null
+  ddcutil setvcp $BRIGHTNESS 0 $CONTRAST 0
+  brightnessctl s "$LOW_PERCENT_INTERNAL%" >/dev/null
 }
 
 toggle() {
-  if [[ CURRENT_BRIGHTNESS -eq LOW_PERCENT ]]; then
+  if [[ CURRENT_BRIGHTNESS_PERCENT -eq LOW_PERCENT_INTERNAL ]]; then
     bright
   else
     dark
