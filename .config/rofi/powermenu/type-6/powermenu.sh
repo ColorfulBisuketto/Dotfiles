@@ -83,6 +83,8 @@ run_cmd() {
         qdbus org.kde.ksmserver /KSMServer logout 0 0 0
       elif [[ "$DESKTOP_SESSION" == 'hyprland-uwsm' ]]; then
         uwsm stop
+      elif [[ "$DESKTOP_SESSION" == 'niri' ]]; then
+        niri msg action quit
       fi
     elif [[ $1 == '--lock' ]]; then
       loginctl lock-session
