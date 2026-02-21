@@ -1,9 +1,0 @@
-[Unit]
-Description=Change Wallpaper every 10 minutes
-After=graphical-session.target
-
-[Timer]
-OnCalendar=*:0/10
-
-[Install]
-WantedBy=timers.target
