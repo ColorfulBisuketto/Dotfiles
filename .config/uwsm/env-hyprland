@@ -1,6 +1,8 @@
 export HYPRCURSOR_SIZE=24
 export HYPRCURSOR_THEME=catppuccin-mocha-dark-cursors
 
+export QT_PLUGIN_PATH=/usr/lib/qt/plugins
+
 export GDK_BACKEND=wayland,x11,*
 export QT_QPA_PLATFORM="wayland;xcb"
 export SDL_VIDEODRIVER=wayland
