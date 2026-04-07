@@ -47,19 +47,19 @@ status_inhibit() {
 }
 
 case "$1" in
-start)
+"start")
   start_inhibit
   ;;
-stop)
+"stop")
   stop_inhibit
   ;;
-toggle)
+"toggle" | "")
   toggle_inhibit
   ;;
-status)
+"status")
   status_inhibit
   ;;
 *)
-  echo "Usage: $0 start|stop|toggle|status"
+  echo "Usage: $0 start|stop|toggle|status (Default=tpggle)"
   ;;
 esac
