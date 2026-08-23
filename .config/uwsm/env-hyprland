@@ -19,3 +19,5 @@ export AQ_DRM_DEVICES="/dev/dri/nvidia-gpu:/dev/dri/intel-igpu"
 export MOZ_ENABLE_WAYLAND=1
 export __GL_VRR_ALLOWED=0
 export VDPAU_DRIVER=nvidia
+
+export QS_ICON_THEME="candy-icons"
