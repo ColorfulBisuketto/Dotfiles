@@ -55,8 +55,8 @@ hl.bind("ALT + Tab", hl.dsp.exec_cmd(ipc .. "window-switcher"))
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"))
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"))
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "volume-mute"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(ipc .. "brightness-up"))
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down"))
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("hyprctl hyprsunset gamma +1%"))
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("hyprctl hyprsunset gamma -1%"))
 
 -- Noctalia Settings
 hl.window_rule({
@@ -118,6 +118,13 @@ hl.device({
 	kb_model = "pc104",
 	kb_options = "lv3:ralt_switch,fkeys:basic_13-24",
 	kb_rules = "evdev",
+})
+
+-- Gestures
+hl.gesture({
+	fingers = 3,
+	direction = "horizontal",
+	action = "workspace",
 })
 
 -- Applications

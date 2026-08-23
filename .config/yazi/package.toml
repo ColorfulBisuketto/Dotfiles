@@ -1,34 +1,17 @@
 [[plugin.deps]]
-use = "yazi-rs/plugins:full-border"
-rev = "e07bf41"
-hash = "3996fc74044bc44144b323686f887e1"
-
-[[plugin.deps]]
-use = "yazi-rs/plugins:git"
-rev = "e07bf41"
-hash = "270915fa8282a19908449530ff66f7e2"
-
-[[plugin.deps]]
 use = "yazi-rs/plugins:mount"
 rev = "e07bf41"
 hash = "563e4068979d1466d3dfc2e70a296947"
 
 [[plugin.deps]]
-use = "yazi-rs/plugins:jump-to-char"
-rev = "e07bf41"
-hash = "ce67445ebb1bf3d97b8e44f50904b2c5"
-
-[[plugin.deps]]
-use = "Lil-Dank/lazygit"
-rev = "0e56060"
-hash = "ab2e66065a94cca4886b303518e44bd8"
+use = "yazi-rs/plugins:full-border"
+rev = "72f9e3c"
+hash = "f281261ff04ad7ec867c3f802a50835f"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "eca1861"
-hash = "e519d894e94ded741e06aae4d4775981"
+rev = "ea92cf4"
+hash = "9776f378459072b6c2875eae5addc49d"
 
-[[flavor.deps]]
-use = "yazi-rs/flavors:catppuccin-mocha"
-rev = "ca61658"
-hash = "8eabb4e88096f10905a6df62cfaadbf4"
+[flavor]
+deps = []
