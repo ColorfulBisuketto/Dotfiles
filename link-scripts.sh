@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Creates symbolic links for the scripts found under ./Scripts to ~/.local/bin
+
 set -e
 set -u
 set -o pipefail

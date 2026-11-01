@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Simple stow wrapper to stow all packages under ./pkg to ~/
+# Simple stow wrapper to install all packages under ./pkg to ~/
 
 set -e
 set -u
