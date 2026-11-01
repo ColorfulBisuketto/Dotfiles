@@ -38,7 +38,7 @@ case "$1" in
 "dark")
   dark
   ;;
-"--help" | *)
+*)
   echo "Usage: [ toggle | bright | dark ] Default: toggle"
   ;;
 esac
