@@ -11,7 +11,7 @@ ROOT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 SCRIPTS="$ROOT_DIR/Scripts/*"
 
 no_action=0
-install_dir=/usr/local/bin
+install_dir=~/.local/bin
 
 # --- # --- # --- #
 
