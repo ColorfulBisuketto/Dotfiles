@@ -1,0 +1,28 @@
+# vim: ts=2 sw=2 noet:
+
+[user]
+	email = 72705023+ColorfulBisuketto@users.noreply.github.com
+	name = Colorful Bisuketto
+	signingkey = 42778C940B27008F
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[alias]
+	co = commit --gpg-sign
+	st = status --short --branch
+	re = reset --soft HEAD~1
+	pushf = push --force-with-lease
+	p = push
+	f = fetch --all
+	lg = log --graph --decorate --color --oneline --abbrev-commit --date=relative
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
