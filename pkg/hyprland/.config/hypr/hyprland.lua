@@ -1,3 +1,4 @@
+-- vim: ts=2 sw=2 noet:
 -- Main config file
 
 -- Begin of the noctalia stuff
@@ -207,7 +208,7 @@ hl.window_rule({
 	match = {
 		class = "(impala)|(bluetui)|(wiremix)",
 	},
-
+	suppress_event = "fullscreen maximize",
 	float = true,
 })
 hl.window_rule({
