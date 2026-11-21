@@ -17,7 +17,7 @@
 	st = status --short --branch
 	re = reset --soft HEAD~1
 	pushf = push --force-with-lease
-	p = push
+	p = pull --ff-only
 	f = fetch --all
 	lg = log --graph --decorate --color --oneline --abbrev-commit --date=relative
 [credential "https://github.com"]
