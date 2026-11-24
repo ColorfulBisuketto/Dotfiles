@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Made by Me (https://github.com/ColorfulBisuketto)
 
 DATE=$(date +'%Y%m%d-%H:%M:%S.png')
 IMAGE="$HOME/Pictures/Screenshots/$DATE"

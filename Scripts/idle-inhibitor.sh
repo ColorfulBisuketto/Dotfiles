@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Largely AI generated
 
 INHIBIT_PID_FILE="/tmp/idle-inhibit.pid"
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Simple stow wrapper to install all packages under ./pkg to ~/
+# Made by Me (https://github.com/ColorfulBisuketto)
 
 set -e
 set -u

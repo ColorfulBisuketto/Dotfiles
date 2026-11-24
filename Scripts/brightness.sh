@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Made by Me (https://github.com/ColorfulBisuketto)
 
 CURRENT_BRIGHTNESS_PERCENT=$((($(brightnessctl g) * 100) / $(brightnessctl m)))
 

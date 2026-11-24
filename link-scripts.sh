@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Creates symbolic links for the scripts found under ./Scripts to ~/.local/bin
+# Made by Me (https://github.com/ColorfulBisuketto)
 
 set -e
 set -u

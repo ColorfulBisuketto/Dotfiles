@@ -66,7 +66,6 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("hyprctl hyprsunset gamma -1%")
 hl.bind("SHIFT + XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down eDP-1 1%"), { repeating = true})
 hl.bind("CONTROL + XF86MonBrightnessDown", hl.dsp.exec_cmd("brightness.sh dark"))
 hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl sleep"))
-hl.bind("XF86TouchpadToggle", hl.dsp.exec_cmd("toggle-touchpad.sh"))
 
 -- Noctalia Settings
 hl.window_rule({
@@ -201,6 +200,28 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- Custom stuff
 hl.bind("CONTROL + SHIFT + S", hl.dsp.exec_cmd("take-screenshot.sh area"))
 hl.bind("CONTROL + SHIFT + ALT + S", hl.dsp.exec_cmd("take-screenshot.sh screen"))
+
+
+-- Touchpad toggle From https://github.com/Maviya13/hyprlandlua-touchpad-toggle/blob/4795ada9f9c816887663da3efc1060a1ed95f932/README.md
+local touchpad = true
+
+hl.bind("XF86TouchpadToggle", function()
+	touchpad = not touchpad
+
+	hl.device({
+		name = "asup1205:00-093a:2003-touchpad",
+		enabled = touchpad,
+	})
+
+	if touchpad then
+		hl.exec_cmd("notify-send 'Touchpad Enabled'") 
+	else
+		hl.exec_cmd("notify-send 'Touchpad Disabled'")
+	end
+
+end)
+
+
 
 -- Wondowrules
 

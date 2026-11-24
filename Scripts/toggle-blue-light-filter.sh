@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Made by Me (https://github.com/ColorfulBisuketto)
 
 IDENTITY=6000 # see hyprsunset wiki
 CURRENT="$(hyprctl hyprsunset temperature)"

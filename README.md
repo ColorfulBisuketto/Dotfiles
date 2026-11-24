@@ -132,7 +132,6 @@ The `Scripts/` directory contains small utilities intended for regular use. Thes
 | `kompress-pdf.sh` | Compresses PDF files using Ghostscript. Accepts an input file and an optional output filename. |
 | `take-screenshot.sh` | Takes screenshots of a selected area or the currently focused monitor. Copies the image to the clipboard and provides notification actions for viewing, opening the folder, or deleting the screenshot. |
 | `toggle-blue-light-filter.sh` | Toggles the Hyprsunset color temperature between 6000 K and 2500 K. |
-| `toggle-touchpad.sh` | Toggles a Hyprland input device (**hardcoded in the script**), with optional device-name selection and desktop notifications. |
 
 ### Usage
 
@@ -187,7 +186,6 @@ Some scripts rely on external applications or desktop-specific utilities.
 | `kompress-pdf.sh` | `ghostscript` |
 | `take-screenshot.sh` | `grim`, `slurp`, `hyprctl`, `wl-clipboard`, `libnotify`, `uwsm`, `xdg-utils`, `gio` |
 | `toggle-blue-light-filter.sh` | `hyprctl`, `hyprsunset` |
-| `toggle-touchpad.sh` | `hyprctl`, `libnotify` |
 
 Some scripts are specifically designed for Hyprland and may require adjustments when used in other desktop environments.
 
