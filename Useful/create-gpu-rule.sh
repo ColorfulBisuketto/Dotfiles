@@ -95,6 +95,5 @@ echo -e "\n"
 # --- # Write rule # --- #
 
 echo -e "$UDEV_RULE\n" > "$RULE_PATH"
-
 echo "`tput setaf 2`Created udev rule: $RULE_PATH ✓ `tput sgr0`"
 

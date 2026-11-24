@@ -2,12 +2,5 @@
 
 # Refreshed the udev rules. Requires root permissions.
 
-set -e
-set -u
-set -o pipefail
-set -o noclobber
-
-# --- # --- # --- #
-
 udevadm control --reload
 udevadm trigger
