@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# From https://askubuntu.com/a/626301
 
 INPUT="$1"
 OUTPUT="$2"

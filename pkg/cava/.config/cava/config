@@ -1,0 +1,12 @@
+[general]
+bar_width = 1
+bar_spacing = 1
+
+[color]
+theme = 'catppuccin-mocha-transparent'
+
+[output]
+reverse = 1
+
+[smoothing]
+monstercat = 1

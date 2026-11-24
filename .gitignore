@@ -1,8 +1,0 @@
-# Script I use to update these files.
-copy.sh 
-
-# Latitude and Longitude data for your location.
-sunset_location
-
-.ssh/*
-bin/*
