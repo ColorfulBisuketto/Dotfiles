@@ -72,6 +72,10 @@ Alternatively, deploy all available packages using the provided wrapper:
 ./stow-all.sh
 ```
 
+> The wrapper can do a little more than just installing all packages,
+> but its just a handful of lines, so read them yourself.
+> For example simulate installing the packages with `./stow-all -S -n -v 2`
+
 ### Preview Changes
 
 Before deploying configurations, simulate the operation:

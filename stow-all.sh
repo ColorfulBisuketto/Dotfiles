@@ -4,9 +4,15 @@
 # Made by Me (https://github.com/ColorfulBisuketto)
 
 set -e
-set -u
 set -o pipefail
 set -o noclobber
+
+# --- # --- # --- #
+
+# The first argument must be the action.
+# The default action is to install all the packages.
+ACTION=${1:-"-S"}
+[[ -n $1 ]] && shift
 
 # --- # --- # --- #
 
@@ -16,5 +22,6 @@ PACKAGES="$(basename -a $PACKAGE_DIR/*)"
 
 # --- # --- # --- #
 
-stow -t ~/ -d $PACKAGE_DIR -S $PACKAGES $@
+# Other than the first argument all others are appended at the end, allowing for simulation when using '-S -n'
+stow -t ~/ -d $PACKAGE_DIR $ACTION $PACKAGES $@
 
